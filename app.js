@@ -28,7 +28,6 @@ var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var util = require('util');
 var bunyan = require('bunyan');
 var config = require('./config');
 
@@ -85,7 +84,7 @@ passport.use(new OIDCStrategy({
     identityMetadata: config.creds.identityMetadata,
     responseType: config.creds.responseType,
     responseMode: config.creds.responseMode,
-    skipUserProfile: config.creds.skipUserProfile
+    skipUserProfile: config.creds.skipUserProfile,
     scope: config.creds.scope
   },
   function(iss, sub, profile, accessToken, refreshToken, done) {
