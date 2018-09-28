@@ -26,6 +26,7 @@
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
+var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var bunyan = require('bunyan');
@@ -112,21 +113,17 @@ passport.use(new OIDCStrategy({
 var app = express();
 
 
-app.configure(function() {
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.logger());
-  app.use(express.methodOverride());
-  app.use(cookieParser());
-  app.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitialized: false }));
-  app.use(bodyParser.urlencoded({ extended : true }));
-  // Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/../../public'));
-});
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(methodOverride());
+app.use(cookieParser());
+app.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitialized: false }));
+app.use(bodyParser.urlencoded({ extended : true }));
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(__dirname + '/../../public'));
 
 //Routes (Section 4)
 
